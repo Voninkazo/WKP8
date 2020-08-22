@@ -182,3 +182,8 @@ td>span:nth-child(2) {
     color: #2e2e2e;
     padding: 2rem;
 }
+
+[type="button"] {
+    padding: 1rem;
+    background-color: #0083c3;
+}
