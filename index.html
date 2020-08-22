@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hit parade</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Hit parade</h1>
+    </header>
+    <div class="header_container">
+        <fieldset>
+            <label for="name">Search a song</label>
+            <input type="text" id="name" name="name" placeholder="name" required />
+        </fieldset>
+        <fieldset>
+            <label for="style">Select a style</label>
+            <select name="style" id="style" required>
+                <option value="Kilalaka">Kilalaka</option>
+                <option value="Slow">Slow</option>
+                <option value="Rock">Rock</option>
+                <option value="Jazz">Jazz</option>
+                <option value="Salegy">Salegy</option>
+                <option value="Bassessa">Bassessa</option>
+                <option value="Other">Other</option>
+            </select>
+        </fieldset>
+        <fieldset>
+            <button type="delete" id="reset">Reset Filter</button>
+        </fieldset>
+    </div>
+    <main>
+        <section class="add-song">
+            <h2>Add a song</h2>
+            <form>
+                <fieldset>
+                    <label for="title">Song title</label>
+                    <input type="text" id="title" name="title" placeholder="Title" required />
+                </fieldset>
+                <fieldset>
+                    <label for="artist">Artist name</label>
+                    <input type="text" id="artist" placeholder="artist" required />
+                </fieldset>
+                <fieldset>
+                    <label for="style">Song style</label>
+                    <select name="style" id="style" required>
+                        <option value="Kilalaka">Kilalaka</option>
+                        <option value="Slow">Slow</option>
+                        <option value="Rock">Rock</option>
+                        <option value="Jazz">Jazz</option>
+                        <option value="Salegy">Salegy</option>
+                        <option value="Bassessa">Bassessa</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </fieldset>
+                <fieldset>
+                    <label for="length">Song length</label>
+                    <input type="number" name="length" id="length" placeholder="Number of length" required />
+                </fieldset>
+                <fieldset>
+                    <label for="photo">Artist picture</label>
+                    <input type="url" name="photo" id="photo" placeholder="Url of photo" required />
+                </fieldset>
+                <fieldset>
+                    <button type="submit">Add</button>
+                </fieldset>
+            </form>
+        </section>
+        <script src="./script.js"></script>
+</body>
+
+</html>
