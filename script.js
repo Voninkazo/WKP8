@@ -50,6 +50,7 @@ const showLists = () => {
                     <img src="./assets/icon.svg" alt="Delete ${song.title} from the list">
                 </button>
             </td>
+        </tr>
         `;
         }).join(' ')
     tableList.innerHTML = html;
@@ -89,6 +90,46 @@ const deleteSong = id => {
     tableList.dispatchEvent(new CustomEvent('listUpdated'));
 };
 
+// filter by style when choosing the dropdown
+const songToFilter = document.querySelector('#song-style');
+const filterByStyle = e => {
+    // filter song
+    let filterSong = songToFilter.value; // we grab the value from the select input
+    let choosenStyle; // decare a variable to store that value and filter it
+    choosenStyle = songs.filter(song => song.style.toLowerCase() === filterSong.toLowerCase());
+    // generate the filtered songs
+    const html = choosenStyle
+        .map(song => {
+            return `
+            <tr>
+            <td>
+                <img src="${song.photo}" alt="This is the artist image">
+            </td>
+            <td>
+                <span>${song.title}</span><br>
+                <span>${song.style}</span>
+            </td>
+            <td>
+                <span>${song.artist}</span><br>
+                <span> ${song.length}</span>
+            </td>
+            <td class="score">Score: ${song.score}</td>
+            <td>
+                <button class="increase-score" area-label="increase score" value="${song.id}">+1</button>
+            </td>
+            <td>
+                <button value="${song.id}" class="delete" area-label="Delete the ${song.title} from the list">
+                    <img src="./assets/icon.svg" alt="Delete ${song.title} from the list">
+                </button>
+            </td>
+        </tr>
+    `;
+        }).join('')
+        // sort again once it's filtered by style
+    songs.sort((a, b) => a.score - b.score)
+    tableList.innerHTML = html;
+};
+
 // save in the local storage
 const initToLocalStorage = () => {
     const songList = JSON.parse(localStorage.getItem('songs'));
@@ -110,5 +151,6 @@ myForm.addEventListener('submit', addSong);
 tableList.addEventListener('listUpdated', showLists);
 tableList.addEventListener('click', handleClick);
 tableList.addEventListener('listUpdated', updateLocalStorage);
+songToFilter.addEventListener('change', filterByStyle);
 
 initToLocalStorage();
