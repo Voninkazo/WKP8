@@ -4,6 +4,7 @@ let songs = [];
 const myForm = document.querySelector('form');
 const tableList = document.querySelector('table');
 
+// filering function by score in order not to reapeat it all the time
 const filterByScore = () => {
         songs.sort((a, b) => a.score - b.score);
     }
