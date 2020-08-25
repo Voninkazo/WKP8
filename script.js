@@ -4,7 +4,10 @@ let songs = [];
 const myForm = document.querySelector('form');
 const tableList = document.querySelector('table');
 
-// create a new object of a new song
+const filterByScore = () => {
+        songs.sort((a, b) => a.score - b.score);
+    }
+    // create a new object of a new song
 const addSong = e => {
         e.preventDefault();
         const formElm = e.currentTarget;
@@ -20,7 +23,7 @@ const addSong = e => {
             // push into the Mama object
         songs.push(newSong)
             //sort alphabeticaly by title
-        songs.sort((a, b) => a.score - b.score);
+        filterByScore();
         // create dispatch event
         tableList.dispatchEvent(new CustomEvent('listUpdated'));
     }
@@ -63,7 +66,7 @@ const increaseScore = id => {
     console.log(scoreToIncrease);
     scoreToIncrease.score++;
     // filter by score again
-    songs.sort((a, b) => a.score - b.score);
+    filterByScore();
     tableList.dispatchEvent(new CustomEvent('listUpdated'));
 }
 
@@ -126,8 +129,56 @@ const filterByStyle = e => {
     `;
         }).join('')
         // sort again once it's filtered by style
-    songs.sort((a, b) => a.score - b.score)
+    filterByScore();
     tableList.innerHTML = html;
+};
+
+// handle filter by title when enering any title in the input
+const inputTitle = document.querySelector('#name');
+const filterByTitle = e => {
+    // filter song
+    let filterTitle = inputTitle.value; // we grab the value from the input
+    let chooseTitle; // declare a variable to store that value and filter it
+    chooseTitle = songs.filter(song => song.title.toLowerCase().includes(filterTitle.toLowerCase()));
+    // generate the filtered songs
+    const html = chooseTitle
+        .map(song => {
+            return `
+            <tr>
+            <td>
+                <img src="${song.photo}" alt="This is the artist image">
+            </td>
+            <td>
+                <span>${song.title}</span><br>
+                <span>${song.style}</span>
+            </td>
+            <td>
+                <span>${song.artist}</span><br>
+                <span> ${song.length}</span>
+            </td>
+            <td class="score">Score: ${song.score}</td>
+            <td>
+                <button class="increase-score" area-label="increase score" value="${song.id}">+1</button>
+            </td>
+            <td>
+                <button value="${song.id}" class="delete" area-label="Delete the ${song.title} from the list">
+                    <img src="./assets/icon.svg" alt="Delete ${song.title} from the list">
+                </button>
+            </td>
+        </tr>
+    `;
+        }).join('')
+        // sort again once it's filtered by style
+    filterByScore();
+    tableList.innerHTML = html;
+};
+
+// reset the filtered list and show all songs
+const buttonFilter = document.querySelector('#reset'); // btn reset
+const resetFilter = e => {
+    let mySong = songs;
+    mySong;
+    tableList.dispatchEvent(new CustomEvent('listUpdated'));
 };
 
 // save in the local storage
@@ -152,5 +203,7 @@ tableList.addEventListener('listUpdated', showLists);
 tableList.addEventListener('click', handleClick);
 tableList.addEventListener('listUpdated', updateLocalStorage);
 songToFilter.addEventListener('change', filterByStyle);
+buttonFilter.addEventListener('click', resetFilter);
+inputTitle.addEventListener('keyup', filterByTitle);
 
 initToLocalStorage();
