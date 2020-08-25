@@ -140,7 +140,7 @@ const filterByTitle = e => {
     // filter song
     let filterTitle = inputTitle.value; // we grab the value from the input
     let chooseTitle; // declare a variable to store that value and filter it
-    chooseTitle = songs.filter(song => song.title.toLowerCase().includes(filterTitle.toLowerCase()));
+    chooseTitle = songs.filter(song => song.title.toLowerCase().includes(filterTitle.toLowerCase())); // to find any macthes word
     // generate the filtered songs
     const html = chooseTitle
         .map(song => {
