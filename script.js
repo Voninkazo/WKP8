@@ -17,14 +17,10 @@ const addSong = e => {
                 photo: formElm.photo.value,
                 score: 0,
             }
+            // push into the Mama object
+        songs.push(newSong)
             //sort alphabeticaly by title
-        songs.sort(function(a, b) {
-            if (a.title < b.title) { return -1; }
-            if (a.title > b.title) { return 1; }
-            return songs;
-        });
-        // push into the Mama object
-        songs.push(newSong);
+        songs.sort((a, b) => a.score - b.score);
         // create dispatch event
         tableList.dispatchEvent(new CustomEvent('listUpdated'));
     }
@@ -45,12 +41,9 @@ const showLists = () => {
                 <span>${song.artist}</span><br>
                 <span> ${song.length}</span>
             </td>
-            <td class="score">
-                <label for="number"> SCORE:</label>
-                <input type="number" class="number" id="number" name="number" value="0">
-                <button>
-                    <input id="increase" type="button" value="+1"/>
-                </button>
+            <td class="score">Score: ${song.score}</td>
+            <td>
+                <button class="increase-score" area-label="increase score" value="${song.id}">+1</button>
             </td>
             <td>
                 <button value="${song.id}" class="delete" area-label="Delete the ${song.title} from the list">
@@ -58,41 +51,37 @@ const showLists = () => {
                 </button>
             </td>
         `;
-        }).join(' ');
+        }).join(' ')
     tableList.innerHTML = html;
     myForm.reset();
 }
 
-// increase the score of each song when clikcingon the plus button
-const increaseScore = () => {
-    const scoreInput = document.querySelector('.number');
-    if (scoreInput) {
-        let scoreValue = parseInt(scoreInput.value);
-        scoreValue = isNaN(scoreValue) ? 0 : scoreValue;
-        scoreInput.value++;
-    }
-    // tableList.dispatchEvent(new CustomEvent('listUpdated'));
+// handle increase button 
+const increaseScore = id => {
+    let scoreToIncrease = songs.find(song => song.id === id);
+    console.log(scoreToIncrease);
+    scoreToIncrease.score++;
+    // filter by score again
+    songs.sort((a, b) => a.score - b.score);
+    tableList.dispatchEvent(new CustomEvent('listUpdated'));
 }
-window.addEventListener('click', e => {
-    if (e.target.matches('[type="button"]')) {
-        increaseScore(e.target.value);
-    }
-});
 
 // handle delte icon to remove an item
 const handleClick = e => {
+    // handle increament button
+    const btnIncreament = e.target.closest('button.increase-score');
+    if (btnIncreament) {
+        const id = Number(btnIncreament.value);
+        increaseScore(id);
+    }
+
+    // handle the delete button
     const deleteIcon = e.target.closest('button.delete');
     if (deleteIcon) {
         const id = Number(deleteIcon.value);
         deleteSong(id);
     }
 }
-
-// const handleScore = id => {
-//     const songToUpdate = songs.find(song => song.id === id);
-//     songToUpdate.score++;
-//     tableList.dispatchEvent(new CustomEvent('listUpdated'));
-// };
 
 // get the id of the delted item and remove it totally
 const deleteSong = id => {

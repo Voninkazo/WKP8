@@ -28,6 +28,7 @@ Also, please update this readme with the answer to those questions before submit
 
 1. In a few sentences, explain the structure of your project.
 
+    I have a few functions. The first function is creating a new object of a new song, then I genrated the new object in an html. To save and updated item in the local storage, I have two functions which generates each of that. And I worked out how to increase the score when clicking the button plus but it doesn't work for all input. I mean, whichever button I click, it only updates the fierst score.
 2. If you had more time, what area of your project would you improve?
 
 3. Did you learn anything new while working on this project?
